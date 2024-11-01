@@ -6,8 +6,11 @@
 Basic ICMP Documentation
 ========================
 
-Please add your names and group ID here by editing `index.rst` in the docs folder.
+Group ID: 49
 
+Group Members:
+  Burak Muammer Yıldız (Student ID: 2529451)
+  Ozan Kamalı (Student ID:)
 
 .. toctree::
    :maxdepth: 2
