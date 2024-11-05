@@ -10,7 +10,8 @@ Group ID: 49
 
 Group Members:
   Burak Muammer Yıldız (Student ID: 2529451)
-  Ozan Kamalı (Student ID:)
+  
+  Ozan Kamalı (Student ID: 2521680)
 
 .. toctree::
    :maxdepth: 2

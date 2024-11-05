@@ -4,8 +4,8 @@
 
 ## Group Members
 
-- **Burak Muammer Yıldız** (Student ID: )
-- **Ozan Kamalı** (Student ID: )
+- **Burak Muammer Yıldız** (Student ID: 2529451)
+- **Ozan Kamalı** (Student ID: 2521680)
 
 ## GitHub Repository Link
 
