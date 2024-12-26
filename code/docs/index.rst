@@ -6,6 +6,10 @@
 Covert Channel documentation
 ============================
 
+Group Members: Burak Muammer Yıldız
+Group ID: 49
+Student IDs: 2529451
+Link to the Forked Public Repository = 
 Please add your names, group ID, and your link to the forked public repository here by editing `index.rst` in the docs folder.
 
 

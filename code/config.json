@@ -1,18 +1,27 @@
 {
-  "covert_channel_code": "Replace it with the [Code] of chosen covert channel type seen in ODTUClass.",
+  "covert_channel_code": "CSC-PSV-UDP-DP", 
   "send": {
     "parameters": {
-      "parameter1": "p1",
-      "parameter2": 1234,
-      "log_file_name": "Example_UDPTimingInterarrivalChannelSender.log"
+      "rangeA_min": 10000,
+      "rangeA_max": 20000,
+      "rangeB_min": 20001,
+      "rangeB_max": 30000,
+      "bits_per_character": 8,
+      "dst_ip": "172.18.0.3",
+      "udp_sport": 9999,
+      "log_file_name": "Sender_ProtocolFieldManipulation.log"
     }
   },
   "receive": {
     "parameters": {
-      "parameter1": "p1",
-      "parameter2": 1234,
-      "parameter3": "p3",
-      "log_file_name": "Example_UDPTimingInterarrivalChannelReceiver.log"
+      "rangeA_min": 10000,
+      "rangeA_max": 20000,
+      "rangeB_min": 20001,
+      "rangeB_max": 30000,
+      "bits_per_character": 8,
+      "sniff_filter": "udp",
+      "log_file_name": "Receiver_ProtocolFieldManipulation.log"
     }
   }
 }
+
