@@ -40,19 +40,15 @@ The receiver sniffs inbound packets, inspects the port, and reconstructs the hid
 
   
 
-1.  **Random Message Generation:**
+1.  **Random Message Generation:** The sender generates a random message of 16 ASCII characters (by default). We exclude the `'.'` character.
 
-	The sender generates a random message of 16 ASCII characters (by default). We exclude the `'.'` character.
-
-2.  **Bit Conversion:**
-
-	We convert each character to its 8-bit ASCII representation. Thus, a 16-character message corresponds to 128 bits.
+2.  **Bit Conversion:** We convert each character to its 8-bit ASCII representation. Thus, a 16-character message corresponds to 128 bits.
 
 3.  **Port Selection:**
 
--  For `0` bits, pick a random port in `[rangeA_min, rangeA_max]`.
+	-  For `0` bits, pick a random port in `[rangeA_min, rangeA_max]`.
 
--  For `1` bits, pick a random port in `[rangeB_min, rangeB_max]`.
+	-  For `1` bits, pick a random port in `[rangeB_min, rangeB_max]`.
 
 4.  **Packet Transmission:**
 
@@ -60,9 +56,7 @@ The receiver sniffs inbound packets, inspects the port, and reconstructs the hid
 
 	Then we call the **base**  `send(...)` from `CovertChannelBase` using `CovertChannelBase.send(pkt)`.
 
-5.  **Stop Character:**
-
-	After sending the entire message, we encode the stop character `'.'` in the same manner. The receiver detects this and terminates capturing.
+5.  **Stop Character:** After sending the entire message, we encode the stop character `'.'` in the same manner. The receiver detects this and terminates capturing.
 
   
 
@@ -70,38 +64,31 @@ The receiver sniffs inbound packets, inspects the port, and reconstructs the hid
 
   
 
-1.  **Sniffing:**
+1.  **Sniffing:** We use `scapy.sniff()` with a filter (e.g. `"udp"`) to capture packets.
 
-	We use `scapy.sniff()` with a filter (e.g. `"udp"`) to capture packets.
-
-2.  **Bit Decoding:**
-
-	For each packet, we read the `UDP.dport`:
+2.  **Bit Decoding:** For each packet, we read the `UDP.dport`:
 
 	If it’s within `[rangeA_min, rangeA_max]`, we decode `0`.
 	Else if it’s within `[rangeB_min, rangeB_max]`, we decode `1`.
 
-3.  **Character Reconstruction:**
+3.  **Character Reconstruction:** Every time we accumulate `bits_per_character` bits (typically 8), we convert them to a character.
 
-	Every time we accumulate `bits_per_character` bits (typically 8), we convert them to a character.
-
-4.  **Stop Condition:**
-
-	If the character is `'.'`, we stop sniffing. Otherwise, we append it to the decoded message.
+4.  **Stop Condition:** If the character is `'.'`, we stop sniffing. Otherwise, we append it to the decoded message.
 
   
 
 ###  3.3 Parameter Constraints
 
   
-|Parameter|  Description| Possible Range & Note |
-|--|--|--|--|
-| `rangeA_min`/`max` | Port range for bit `0`  | Must be valid UDP ports (1–65535), and not overlap with `rangeB`.  |
-| `rangeB_min`/`max`| Port range for bit `1` | Must be valid UDP ports, distinct from `rangeA`.|
-|  `bits_per_character`  | How many bits form one char (8 for ASCII). | Typically `8`, but we can set `7`, `9`, etc. |
-|  `dst_ip`  | Destination IP for the receiver container | Must match the static IP in `docker-compose.yaml`. |
-|  `udp_sport`  | Source port for the packets | Arbitrary, but it could also be based on your network policy. |
-|  `sniff_filter`  | BPF filter for capturing traffic | Typically `"udp"`; can be refined if desired. |
+| Parameter            | Description                                | Possible Range & Note                                           |
+|----------------------|--------------------------------------------|-----------------------------------------------------------------|
+| `rangeA_min`/`max`   | Port range for bit `0`                     | Must be valid UDP ports (1–65535), and not overlap with `rangeB`. |
+| `rangeB_min`/`max`   | Port range for bit `1`                     | Must be valid UDP ports, distinct from `rangeA`.               |
+| `bits_per_character` | How many bits form one char (8 for ASCII). | Typically `8`, but we can set `7`, `9`, etc.                   |
+| `dst_ip`             | Destination IP for the receiver container | Must match the static IP in `docker-compose.yaml`.             |
+| `udp_sport`          | Source port for the packets               | Arbitrary, but it could also be based on your network policy.  |
+| `sniff_filter`       | BPF filter for capturing traffic          | Typically `"udp"`; can be refined if desired.                  |
+
 
   
 
@@ -124,8 +111,8 @@ The receiver sniffs inbound packets, inspects the port, and reconstructs the hid
 	docker-compose up --build
 	```
 2.  **Access Containers**
-   -   **Sender** container: `docker exec -it sender bash`
-    -   **Receiver** container: `docker exec -it receiver bash`
+	-   **Sender** container: `docker exec -it sender bash`
+	-   **Receiver** container: `docker exec -it receiver bash`
 3.  **Receive First**  
     In the receiver container:
     
@@ -158,10 +145,10 @@ We measure capacity in **bits per second**. Follow these steps:
 2. **Add Stop Character**: The stop character (`.`) adds an extra 8 bits.
 3.  **Start Timer**: Just before sending the first bit, we note `start_time`.
 4.  **Stop Timer**: Right after sending the final (stop) bit, record `end_time`.
-5.  **Compute Capacity**: 
-	Capacity = Total Bits Sent / (end_time - start_time) 
-	where: 
-	- **Total Bits Sent** = Message Bits + Stop Character Bits.
+5.  **Compute Capacity**:
+
+	Capacity = Total Bits Sent / (end_time - start_time) where: 
+	- Total Bits Sent = Message Bits + Stop Character Bits.
 	
 ### 5.1 Our Observed Capacity
 
