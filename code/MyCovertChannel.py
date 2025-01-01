@@ -24,7 +24,7 @@ IMPORTANT:
 - Additional helper methods are allowed.
 - Use self.send(...) instead of scapy.send(...) directly.
 
-Author: Burak Muammer Yıldız / Group 49 / Student ID: 2529451
+Author: Burak Muammer YILDIZ / Group 49 / Student ID: 2529451
 Date:   26.12.2024
 """
 
@@ -64,6 +64,8 @@ class MyCovertChannel(CovertChannelBase):
         rangeA_max,
         rangeB_min,
         rangeB_max,
+        message_min_length,
+        message_max_length,
         bits_per_character,
         log_file_name,
         dst_ip,
@@ -85,6 +87,10 @@ class MyCovertChannel(CovertChannelBase):
             Minimum port number for range B (decodes to '1').
         rangeB_max : int
             Maximum port number for range B (decodes to '1').
+        message_min_length : int
+            Minimum length of the random message to generate.
+        message_max_length : int
+            Maximum length of the random message to generate.
         bits_per_character : int
             How many bits form one character (commonly 8 for ASCII).
         log_file_name : str
@@ -102,7 +108,7 @@ class MyCovertChannel(CovertChannelBase):
         #    The base class ensures '.' is not used in random messages.
         #    We can optionally set min/max length, or rely on defaults.
         #    Example: to measure capacity with 16 ASCII chars → 128 bits
-        message = self.generate_random_message(min_length=16, max_length=16)
+        message = self.generate_random_message(min_length=message_min_length, max_length=message_max_length)
 
         # 2. Log the message before sending (for later comparison).
         self.log_message(message, log_file_name)
@@ -143,7 +149,7 @@ class MyCovertChannel(CovertChannelBase):
             pkt = IP(dst=dst_ip) / UDP(sport=udp_sport, dport=chosen_port) / Raw(load=b"stop")
             CovertChannelBase.send(self, pkt)
 
-        # 7. Stop the timer right after sending the last packet.
+        # 7. We stop the timer right after sending the last packet.
         end_time = time.time()
         elapsed = end_time - start_time
 

@@ -6,6 +6,8 @@
       "rangeA_max": 20000,
       "rangeB_min": 20001,
       "rangeB_max": 30000,
+      "message_min_length": 16,
+      "message_max_length": 16,
       "bits_per_character": 8,
       "dst_ip": "172.18.0.3",
       "udp_sport": 9999,
